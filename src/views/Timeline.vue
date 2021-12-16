@@ -4,7 +4,7 @@
  - @author John Molakvoæ <skjnldsv@protonmail.com>
  - @author Corentin Mors <medias@pixelswap.fr>
  -
- - @license GNU AGPL version 3 or any later version
+ - @license AGPL-3.0-or-later
  -
  - This program is free software: you can redistribute it and/or modify
  - it under the terms of the GNU Affero General Public License as
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import * as moment from 'moment'
+import moment from '@nextcloud/moment'
 import { mapGetters } from 'vuex'
 
 import getPhotos from '../services/PhotoSearch'
@@ -212,8 +212,9 @@ export default {
 
 	methods: {
 		/** Return next batch of data depending on global offset
+		 *
 		 * @param {boolean} doReturn Returns a Promise with the list instead of a boolean
-		 * @returns {Promise<boolean>} Returns a Promise with a boolean that stops infinite loading
+		 * @return {Promise<boolean>} Returns a Promise with a boolean that stops infinite loading
 		 */
 		async getContent(doReturn) {
 			if (this.done) {
@@ -305,20 +306,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$previous: 0;
-@each $size, $config in get('sizes') {
-	$marginTop: map-get($config, 'marginTop');
-	$marginW: map-get($config, 'marginW');
-	// if this is the last entry, only use min-width
-	$rule: '(min-width: #{$previous}px) and (max-width: #{$size}px)';
-	@if $size == 'max' {
-		$rule: '(min-width: #{$previous}px)';
+@import '../mixins/GridSizes.scss';
+
+.grid-container {
+	@include grid-sizes using ($marginTop, $marginW) {
+		padding: 0px #{$marginW}px 256px #{$marginW}px;
 	}
-	@media #{$rule} {
-		.grid-container {
-			padding: 0px #{$marginW}px 256px #{$marginW}px;
-		}
-	}
-	$previous: $size;
 }
 </style>
