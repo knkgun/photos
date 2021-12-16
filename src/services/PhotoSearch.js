@@ -25,7 +25,7 @@ import { allMimes } from './AllowedMimes'
 import client from './DavClient'
 import { props } from './DavRequest'
 import { sizes } from '../assets/grid-sizes'
-import moment from 'moment'
+import moment from '@nextcloud/moment'
 
 /**
  * List files from a folder and filter out unwanted mimes
